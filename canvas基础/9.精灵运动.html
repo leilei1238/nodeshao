@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500">浏览器不支持canvas</canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');//创建一个2D的画布，以后所有的操作都用ctx这个对象；
+
+    function Gril(x,y){
+        this.x=x||100;
+        this.y=y||100;
+        this.state=0;
+    }
+    Gril.prototype={
+        update:function(){//更新状态；
+            this.state=++this.state%3;
+            this.x+=6;
+        },
+        render:function(){//渲染组建；
+            ctx.drawImage(game.img,this.state*96,96*2,96,96,this.x,this.y,96,96);
+        }
+    };
+    //游戏控制类；
+    function Game(){//当游戏实例一创建，就开始加载图片； 图片加载成功之后，就开始执行主循环；
+        //加载图片
+        this.img=new Image;
+        this.img.src='./img/01.png';
+        var _this=this;
+        this.img.onload=function(){
+            _this.run();
+        }
+        //这个小女孩，是game的属性，也就是说game是统领一切的东西
+        this.gril=new Gril();
+        this.timer=null;
+    }
+    //游戏控制类的原型
+    Game.prototype={
+        //主循环
+        mainloop:function(){
+            //写具体的业务；
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            this.gril.update();
+            this.gril.render();
+        },
+        //开始主循环
+        run:function(){
+            var _this=this;
+            this.timer=setInterval(function(){
+                _this.mainloop();
+            },60)
+        },
+        stop:function(){
+            clearInterval(this.timer);
+        }
+    };
+    var game=new Game();
+</script>
+</body>
+</html>

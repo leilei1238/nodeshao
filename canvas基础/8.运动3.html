@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500">对不起，您的浏览器不支持canvas</canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');//上下文：提供一个2D的画布，以后所有的操作都针对ctx上下文进行；
+    //canvas动画中，最常见的两个方法就是：1）update 2）render
+    //面向对象：球  arc(x,y,r,startAngle,endAngle,是否逆时针)；
+
+    var ary=[];//添加一个静态方法；
+    function Ball(x,y,r,color){
+        this.x=x;
+        this.y=y;
+        this.r=r||30;
+        this.color=color||'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+        console.log(this.color)
+        //改变运动速度和方向；
+        this.dx=Math.random()*10-5;//-5~5;
+        this.dy=Math.random()*10-5;//-5~5;
+        //改变运动大小；
+        this.dr=Math.random()+0.3;
+        ary.push(this);
+    }
+    Ball.prototype={
+        update:function(){
+            this.x+=this.dx;
+            this.y+=this.dy;
+            this.r-=this.dr;//注意：当半径小于0的时候，会报错；--解决措施：半径<0时，删除该实例；
+            if(this.r<0){
+                for(var i=0; i<ary.length; i++){
+                    if(ary[i]===this){
+                        ary.splice(i,1);
+                    }
+                }
+            }
+        },
+        render:function(){
+            ctx.beginPath();//创建起始路径；
+            //画圆
+            ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+            ctx.fillStyle=this.color;//填充颜色；如果不设置，默认是黑色；
+            ctx.fill();//填充；
+
+        }
+    };
+//    new Ball(100,100);
+//    new Ball(100,100);
+//    new Ball(100,100);
+//    new Ball(100,100);
+//    new Ball(100,100);
+//    new Ball(100,100);
+//    new Ball(100,100);
+    setInterval(function(){
+        //画图之前一定要先清空画布
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(var i=0; i<ary.length; i++){
+            ary[i].update();//update之后，有的实例就已经删除了；
+            if(ary[i]) {
+                ary[i].render();
+            }
+        }
+    },20)
+    canvas.addEventListener('mousemove',function(e){
+        new Ball(e.clientX, e.clientY);
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

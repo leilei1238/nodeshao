@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //注意：所有绘制在canvas上东西，会立即被删格化，绘制了一个圆，就再也找不到这个圆了；所以，如果想让一个小球移动，必须清除之前的小球，然后绘制新的；
+    var x=100;
+    var x1=50
+    //粑粑一样的代码--解决措施：面向对象；
+    /*setInterval(function(){
+        x++;
+        x1++;
+        //1.清除整个画布
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        //2.绘制一个弧形
+        ctx.beginPath();
+        ctx.arc(x,200,50,0,Math.PI*2,true);
+        ctx.fillStyle='navy';
+        ctx.fill();
+        ctx.closePath();
+        //2.绘制一个弧形
+        ctx.beginPath();
+        ctx.arc(x1,400,50,0,Math.PI*2,true);
+        ctx.fillStyle='skyblue';
+        ctx.fill();
+        ctx.closePath();
+    },20)*/
+    //面向对象的本质就是自治；让一个对象管理好自己的事，那么多有的事都好了；
+    function Ball(x,y,r,color,speed){
+        //x,y,r,color
+        this.x=x;
+        this.y=y;
+        this.r=50||r;
+        this.color='skyblue'||color;
+        //x的移动大小；
+        this.dx=Math.random()*10-5;//-5~5之间的值；
+        this.dy=Math.random()*10-5;//-5~5之间的值；
+
+    }
+    Ball.prototype={
+        update:function(){
+            this.x+=this.dx;
+            this.y+=this.dy;
+            return this;
+        },
+        render:function(){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+            ctx.fillStyle=this.color;
+            ctx.fill();
+            ctx.closePath();
+            return this;
+        }
+    };
+    var b1=new Ball(100,100,50,'red',1);
+    var b2=new Ball(100,200,50,'blue',10);
+
+//    b2.update=function(){
+//        this.x+=10;
+//        return this;
+//    };
+    setInterval(function(){
+        //1 清除画布
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        //更新小球，并渲染小球；
+        b1.update().render();
+        b2.update().render();
+    },20)
+</script>
+</body>
+</html>

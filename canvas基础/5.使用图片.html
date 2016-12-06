@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //使用图片：
+    //一定要记住：图片是drawImage,一共是9个参数; 一定是先描述位置，再描述宽高；
+    //drawImage(image,sx,sy,swidth,sheight,dx,dy,dwidth,dheight);
+    //1.创建一个图片对象
+    var oImg=new Image;
+    //2.设置src，一旦设置了src，上行请求将发出；
+    oImg.src='./img/1.jpg';
+    //3.请求是异步的，所以，展示图片必须图片加载成功之后再执行；
+    oImg.onload=function(){
+        ctx.drawImage(oImg,186,124,42,30,200,200,42,30);//只写两个参数，代表把图片放在200，200的位置上，图片多大就多大，没有切片；
+    }
+</script>
+</body>
+</html>

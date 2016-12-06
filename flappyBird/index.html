@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border: 1px solid #000;
+            display: block;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script src="js/underscore-min.js"></script>
+<script src="js/simpleInheritance.js"></script>
+<script src="js/Game.js"></script>
+<script src="js/FrameUtil.js"></script>
+<script src="js/StaticResources.js"></script>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    var img=new Image;
+    var game=new Game({
+        fps:50,
+        id:'canvas',
+    });
+    //game.run();
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <style>
+        canvas{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500">sorry，该浏览器不支持canvas</canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    var ary=[];
+    //1.在画布中画一个小球类； arc(x,y,r,0,Math.PI,true);
+    //2.让静态小球动起来；--记得清除画布残留；
+    function Ball(x,y,r,color){
+        this.x=x;
+        this.y=y;
+        this.r=r||50;
+        this.color=color||'rgb(255,0,0)';
+        //改变运动路径
+        this.dx=Math.random()*10-5;//-5~5
+        this.dy=Math.random()*10-5;
+        //改变球的大小；
+        this.dr=Math.random()+0.3;
+        ary.push(this);
+    }
+    Ball.prototype={
+        update:function(){
+            this.x+=this.dx;
+            this.y+=this.dy;
+            this.r-=this.dr;
+            if(this.r<=0){
+                for(var i=0; i<ary.length; i++){
+                    if(ary[i]===this) ary.splice(i,1);
+                }
+            }
+        },
+        render:function(){
+            ctx.beginPath();//画圆一定要建立起始路径；
+            ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+            ctx.fillStyle=this.color;
+            ctx.fill();
+        }
+    };
+
+    new Ball(200,200);
+    new Ball(200,200);
+    new Ball(200,200);
+    new Ball(200,200);
+    new Ball(200,200);
+    new Ball(200,200);
+    new Ball(200,200);
+    setInterval(function(){
+        //清画布
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(var i=0; i<ary.length; i++){
+            ary[i].update();
+            if(ary[i]){
+                ary[i].render();
+            }
+        }
+    },20)//一秒动50帧
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500">不支持</canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //1.加载图片 drawImg(img,sx,sy,sw,sh,dx,dy,dw,dh)
+    function Gril(x,y){
+        this.x=x||100;
+        this.y=y||100;
+        this.state=0;//决定显示第几张图片；
+    }
+    Gril.prototype={
+        update:function(){
+            this.state=++this.state%3;
+            this.x+=6;
+        },
+        render:function(){
+            var _this=this;
+            var img=new Image();
+            img.src='img/01.png';
+            img.onload=function(){
+                ctx.drawImage(img,_this.state*96,96*2,96,96,_this.x,_this.y,96,96);
+            }
+        }
+    };
+    var g1=new Gril();
+    setInterval(function(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        g1.update();
+        g1.render();
+    },100)
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script src="js/underscore-min.js"></script>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //注意：所有绘制在canvas上东西，会立即被删格化，绘制了一个圆，就再也找不到这个圆了；所以，如果想让一个小球移动，必须清除之前的小球，然后绘制新的；
+
+    //面向对象的本质就是自治；让一个对象管理好自己的事，那么多有的事都好了；
+    function Ball(x,y,r,color,speed){
+        //x,y,r,color
+        this.x=x;
+        this.y=y;
+        this.r=30||r;
+        this.color='rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')'||color;
+        //x的移动大小；
+        this.dx=Math.random()*10-5;//-5~5之间的值；
+        this.dy=Math.random()*10-5;//-5~5之间的值；
+        //半径的衰减
+        this.dr=Math.random()+0.3;//0~1
+        ballAry.push(this)//将实例化的小球，放到数组中；
+    }
+    Ball.prototype={
+        update:function(){
+            this.x+=this.dx;
+            this.y+=this.dy;
+            this.r-=this.dr;
+            if(this.r<=0){
+                for(var i=0; i<ballAry.length; i++){
+                    //在数组中删除自己；借助：underscore的API
+                    //ballAry= _.without(ballAry,this);
+                    if(ballAry[i]==this){
+                        ballAry.splice(i,1);
+                    }
+                }
+            }
+            return this;
+        },
+        render:function(){
+            ctx.beginPath();
+            if(this.r>0)ctx.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+            ctx.fillStyle=this.color;
+            console.log(this.color)
+            ctx.fill();
+            ctx.closePath();
+            return this;
+        }
+    };
+    //小球数组：
+    var ballAry=[];
+    /*new Ball(300,300);//实例化小球
+    new Ball(300,300);//实例化小球
+    new Ball(300,300);//实例化小球
+    new Ball(300,300);//实例化小球
+    new Ball(300,300);//实例化小球
+    new Ball(300,300);//实例化小球*/
+    //
+    // ballAry.push(b1);
+    setInterval(function(){
+        //每次都要清除画布；
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(var i=0; i<ballAry.length; i++){
+            //ballAry[i].update()肯能把自己删了，所以调用自己之前，一定要验证自己是否存在
+            ballAry[i].update();
+            if(ballAry[i]) ballAry[i].render();
+        }
+    })
+    //鼠标移动时的监听
+    canvas.addEventListener('mousemove',function(e){
+        //new Ball(e.clientX, e.clientY);
+        new Ball(e.offsetX, e.offsetY);
+    },false)
+</script>
+</body>
+</html>

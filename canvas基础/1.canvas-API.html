@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas width="800" height="500" id="canvas">对不起，您的浏览器不支持canvas</canvas>
+</body>
+<script>
+    //得到标签
+    var canvas=document.getElementById('canvas');
+    //上下文:提供一个2D画布，以后所有设置都是针对上下文来进行设置的；
+    var ctx=canvas.getContext('2d');//今后绘制的图形，图片都是使用ctx，而不是canvas这个对象；
+    ctx.fillRect(100,0,200,200)
+
+</script>
+</html>
+
+
+
+
+
+
+
+

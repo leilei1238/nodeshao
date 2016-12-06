@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="js/simpleInheritance.js"></script>
+<script>
+    var Person=Class.extend({
+        init:function(name,age){
+            this.name=name;
+            this.age=age;
+        },
+        getName:function(){
+            alert('我的名字是'+this.name);
+        }
+    });
+    //new Person('张蕾').getName();
+    var gril=Person.extend({
+        init:function(name,age,sex){
+            this._super(name,age);
+            this.sex=sex;
+        },
+        grilName:function(){
+            alert('grilName: '+this.sex);
+        }
+    })
+    new gril('zhanglei','18','gril').grilName();
+
+</script>
+</body>
+</html>

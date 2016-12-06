@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500">不支持</canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //1.加载图片 drawImg(img,sx,sy,sw,sh,dx,dy,dw,dh)
+    function Gril(x,y){
+        this.x=x||100;
+        this.y=y||100;
+        this.state=0;//决定显示第几张图片；
+    }
+    Gril.prototype={
+        update:function(){
+            this.state=++this.state%3;
+            this.x+=6;
+        },
+        render:function(){
+            ctx.drawImage(game.img,this.state*96,96*2,96,96,this.x,this.y,96,96);
+        }
+    };
+    //游戏控制类
+    function Game(){//游戏实例一创建，就开始加载图片；
+        //game一创建就开始加载图片；
+        var _this=this;
+        this.img=new Image();
+        this.img.src='img/01.png';
+        this.img.onload=function(){
+            _this.run();
+        }
+        this.g1=new Gril();//游戏中众多人物中的一个类；做为game的属性；
+
+    }
+    Game.prototype={
+        mainLoop:function(){//主循环
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            this.g1.update();
+            this.g1.render();
+        },
+        run:function(){//运行主循环；
+            var _this=this;
+            setInterval(function(){
+                _this.mainLoop();
+            },60)
+        }
+    }
+    var game=new Game();
+</script>
+</body>
+</html>

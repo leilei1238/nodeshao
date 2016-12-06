@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        canvas{
+            border: 1px solid red;
+            margin:0 auto;
+            background: -webkit-linear-gradient(bottom,#4ec0ca,#4ec0ca,#4ec0ca,#aeefb7);
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script src="js2/underscore-min.js"></script>
+<script src="js2/simpleInheritance.js"></script>
+<script src="js2/Game.js"></script>
+<script src="js2/FrameUtil.js"></script>
+<script src="js2/StaticResoucesUtil.js"></script>
+<script src="js2/Background.js"></script>
+<script src="js2/Bird.js"></script>
+<script>
+    //var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    var game=new Game({
+        fps:50,//通过fps帧，决定主程序运行的快慢；
+        canvasId:'canvas'
+    });
+    //game.run();
+
+</script>
+</body>
+</html>

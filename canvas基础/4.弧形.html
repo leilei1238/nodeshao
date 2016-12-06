@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //弧形:arc(x, y, radius, startAngle, endAngle, anticlockwise)
+    //x,y:圆心坐标   radis:半径 startAngle:弧度制的起点坐标 endAngle:弧度制的终点坐标 anticlockwise:布尔值，true／false 是否为逆时针
+    //在画图之前，一定记得开始路径
+    //ctx.beginPath();
+    //ctx.arc(200,200,150,0,Math.PI*2,false);//true:逆时针  false:顺时针；
+    //好多同心圆
+    for(var i=50; i<200; i+=20){
+        //注意：一定要把beginPath和closePath都放在里面，否则：会出现横向
+        ctx.beginPath();//每次都是新路径
+        ctx.arc(200,200,i,0,Math.PI*2,true);
+        ctx.closePath();//封闭路径：如果不写，就连到上次的末尾；
+        ctx.stroke();//描边
+    }
+    //ctx.fill();//填充
+
+
+
+</script>
+</body>
+</html>

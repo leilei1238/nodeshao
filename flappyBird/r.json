@@ -1,0 +1,12 @@
+{
+  "images":[
+    {"name":"bg1","src":"Images/bg1.png"},
+    {"name":"bg2","src":"Images/bg2.png"},
+    {"name":"bird","src":"Images/bird.png"},
+    {"name":"gameover","src":"Images/gameover.png"},
+    {"name":"msg","src":"Images/msg.png"},
+    {"name":"num","src":"Images/num.png"},
+    {"name":"pipeBot","src":"Images/pipeBot.png"},
+    {"name":"pipeTop","src":"Images/pipeTop.png"}
+  ]
+}

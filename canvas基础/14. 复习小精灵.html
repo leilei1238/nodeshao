@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        input{
+            height: 100px;
+            display: inline-block;
+        }
+        canvas{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<input type="button" value="开始运动" id="start"/>
+<input type="button" value="暂停运动" id="pause"/>
+<canvas id="canvas" width="800" height="500"></canvas>
+<script>
+    var start=document.getElementById('start');
+    var pause=document.getElementById('pause');
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    //创建gril类； drawImg(img,sx,sy,sw,sh,dx,dy,dw,dh)
+    function Gril(x,y){
+        this.x=x||100;
+        this.y=y||100;
+        this.state=0;
+    }
+    Gril.prototype={
+        update:function(){// 用来更新状态；
+            this.state=++this.state%3;
+            this.x+=5;
+        },
+        render:function(){//渲染页面；
+            ctx.beginPath();
+            ctx.drawImage(game.img,this.state*96,96*2,96,96,this.x,this.y,96,96)
+            //ctx.drawImage()
+        }
+    };
+
+    //游戏控制类；
+    function Game(){//游戏实例一创建，就开始加载图片；
+        var _this=this;
+        //创建一个gril人物角色；
+        this.gril=new Gril();
+        //创建一个boy人物角色；
+        this.img=new Image;
+        this.img.src='./img/01.png';
+        this.timer=null;
+        this.img.onload=function(){//当图片加载成功的时候，开始运作程序；
+            _this.run();
+        }
+    }
+    Game.prototype={
+        run:function(){//执行主程序：需要多次调用时，开启定时器；
+            var _this=this;
+            this.timer=setInterval(function(){
+                _this.mainLoop();
+            },60);//每秒50帧；
+        },
+        mainLoop:function(){//主程序中就是对创建类的调用；
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            this.gril.update();
+            this.gril.render();
+        },
+        pause:function(){
+            clearInterval(this.timer);
+        }
+    }
+    var game=new Game();
+    start.onclick=function(){
+        game.run();
+    };
+    pause.onclick=function(){
+        game.pause();
+    };
+</script>
+</body>
+</html>
