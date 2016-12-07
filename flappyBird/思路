@@ -1,0 +1,10 @@
+1.通过fps决定主程序运行的快慢；那么定时器的时间就是1000/fps;
+2.计算真实帧率：
+    真实帧率：每秒都比对是否为1000毫秒，如果到了1000毫秒，看总共走了多少帧；--状态更新
+    this.currentFps当前帧  this.sTime起始时间   this.sFrame起始帧  this.realfps真实帧
+3.加载图片
+    1）加载静态资源
+    this.sr=new StaticResourcesUtil();//加载静态资源对象
+    2）调用loadImage(url,function(loaded,allLoad,imgObj){
+        等所有的图片都加载完成，开始跑游戏；
+    })
